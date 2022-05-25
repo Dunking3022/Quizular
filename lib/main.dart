@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(Quizzler());
@@ -24,18 +26,37 @@ class QuizPage extends StatefulWidget {
   _QuizPageState createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
 
-  List<Widget> scorekeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.greenAccent,
-    ),
-    Icon(
-      Icons.close,
-      color: Colors.red,
-    ),
+
+class _QuizPageState extends State<QuizPage> {
+  var quecounter = 0;
+  List<Widget> scorekeeper = [];
+  List<String> questions = [
+    'You can lead a cow down stairs but not up stairs.',
+    'Approximately one quarter of human bones are in the feet.',
+    'A slug\'s blood is green.',
   ];
+  List<bool> answers = [false,true,true];
+
+  void checkanswer(bool x){
+    if(answers[quecounter] == x){
+      scorekeeper.add(
+          Icon(
+            Icons.check,
+            color: Colors.green,
+          )
+      );
+    }
+    else{
+      scorekeeper.add(
+          Icon(
+            Icons.close,
+            color: Colors.red,
+          )
+      );
+    }
+    quecounter+=1;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[quecounter],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -74,12 +95,8 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked true.
                 setState(() {
-                  scorekeeper.add(
-                      Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      )
-                  );
+                  //checking for right answer
+                  checkanswer(true);
                 });
               },
             ),
@@ -100,12 +117,7 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked false.
                 setState(() {
-                  scorekeeper.add(
-                      Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      )
-                  );
+                  checkanswer(false);
                 });
               },
             ),
