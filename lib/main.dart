@@ -1,6 +1,6 @@
-import 'dart:ffi';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:quizular/quiz_brain.dart';
 
 void main() => runApp(Quizzler());
 
@@ -29,33 +29,39 @@ class QuizPage extends StatefulWidget {
 
 
 class _QuizPageState extends State<QuizPage> {
-  var quecounter = 0;
+  QuizBrain qbrain = QuizBrain();
   List<Widget> scorekeeper = [];
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.',
-  ];
-  List<bool> answers = [false,true,true];
+
+
 
   void checkanswer(bool x){
-    if(answers[quecounter] == x){
-      scorekeeper.add(
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          )
-      );
+    //check if quiz is over or not
+    if(qbrain.getQuizStatus()) {
+      if (qbrain.getQuestionAnswer() == x) {
+        scorekeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            )
+        );
+        qbrain.incScore();
+      }
+      else {
+        scorekeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            )
+        );
+      }
+      qbrain.nextQuestion();
     }
     else{
-      scorekeeper.add(
-          Icon(
-            Icons.close,
-            color: Colors.red,
-          )
-      );
+      int score = qbrain.getScore();
+      Alert(context: context, title: "Quiz Finished", desc: "You Scored $score!").show();
+      qbrain.resetQuiz();
+      scorekeeper = [];
     }
-    quecounter+=1;
   }
   @override
   Widget build(BuildContext context) {
@@ -69,7 +75,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[quecounter],
+                qbrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
