@@ -1,0 +1,4 @@
+#Fri May 27 00:36:08 IST 2022
+base.0=D\:\\Flutter Projects\\quizular\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

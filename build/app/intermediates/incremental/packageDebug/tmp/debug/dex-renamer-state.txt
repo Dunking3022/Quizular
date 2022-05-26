@@ -1,4 +1,0 @@
-#Thu May 26 03:47:49 IST 2022
-base.0=D\:\\Flutter Projects\\quizular\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
